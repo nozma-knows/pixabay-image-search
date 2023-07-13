@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  FormEvent,
+  MouseEvent,
+} from "react";
 import { ImageType } from "@/components/types/image";
 
 // Interfaces and Types
@@ -17,6 +23,13 @@ type StateType = {
   setLiked: (i: ImageType[]) => void;
   showLiked: boolean;
   setShowLiked: (b: boolean) => void;
+  handleSearch: (
+    event:
+      | FormEvent<HTMLFormElement>
+      | KeyboardEvent
+      | MouseEvent<HTMLInputElement, MouseEvent>
+  ) => Promise<ImageType[]>;
+  handleGrabMore: () => Promise<ImageType[]>;
 };
 interface StateContextProviderProps {
   children: ReactNode;
@@ -36,6 +49,8 @@ const intitialState: StateType = {
   setLiked: () => {},
   showLiked: false,
   setShowLiked: () => {},
+  handleSearch: () => Promise.resolve([]),
+  handleGrabMore: () => Promise.resolve([]),
 };
 
 export const StateContext = createContext<StateType>(intitialState);
@@ -49,6 +64,43 @@ export default function StateContextProvider({
   const [viewing, setViewing] = useState(""); // Search term used for getting current images
   const [liked, setLiked] = useState<ImageType[]>([]); // Images liked by user
   const [showLiked, setShowLiked] = useState<boolean>(false); // Whether or not to display liked images
+
+  async function handleSearch(
+    event:
+      | FormEvent<HTMLFormElement>
+      | KeyboardEvent
+      | MouseEvent<HTMLInputElement, MouseEvent>
+  ) {
+    event.preventDefault();
+    setImages([]);
+    const masonryGrid = document.getElementById("masonry-grid");
+    masonryGrid?.scrollTo(0, 0);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PIXABAY_BASE_API}/?key=${
+        process.env.NEXT_PUBLIC_PIXABAY_API_KEY
+      }&q=${encodeURIComponent(search)}&per_page=100`
+    );
+    const data = await res.json();
+    console.log("data: ", data);
+    setImages(data.hits);
+    setHits(data.totalHits);
+    setViewing(search);
+    setSearch("");
+    return data;
+  }
+
+  async function handleGrabMore() {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PIXABAY_BASE_API}/?key=${
+        process.env.NEXT_PUBLIC_PIXABAY_API_KEY
+      }&q=${encodeURIComponent(viewing)}&page=${
+        images.length / 100 + 1
+      }&per_page=100`
+    );
+    const data = await res.json();
+    setImages([...images, ...data.hits]);
+    return data;
+  }
 
   return (
     <StateContext.Provider
@@ -65,6 +117,8 @@ export default function StateContextProvider({
         setLiked,
         showLiked,
         setShowLiked,
+        handleSearch,
+        handleGrabMore,
       }}
     >
       {children}

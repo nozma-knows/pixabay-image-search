@@ -115,13 +115,13 @@ function SearchedImagesView(): JSX.Element {
 }
 
 function ShowMoreButton(): JSX.Element {
-  const { images, hits } = useContext(StateContext);
+  const { images, hits, handleGrabMore } = useContext(StateContext);
   return (
     <div className="flex w-full justify-center">
       {Boolean(images.length) && images.length < hits && (
         <Button
           tooltip={{ title: "Show more images", placement: "bottom" }}
-          onClick={() => console.log("Show more images")}
+          onClick={handleGrabMore}
         >
           <div>Show me more!</div>
         </Button>
@@ -134,11 +134,10 @@ export default function MasonryGrid(): JSX.Element {
   const { showLiked } = useContext(StateContext);
 
   return (
-    <div>
+    <div id="masonry-grid">
       {showLiked && <LikedImagesView />}
       <SearchedImagesView />
       <ShowMoreButton />
     </div>
   );
 }
-t;

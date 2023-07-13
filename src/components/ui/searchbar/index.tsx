@@ -1,20 +1,15 @@
 "use client";
 
-import { FormEvent, ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { BiSolidHeart } from "react-icons/bi";
 
 import { StateContext } from "@/context/state.context";
 import Button from "@/components/ui/button";
 
-// Interface
-interface ImageSearchFormProps {
-  handleSearch: (e: FormEvent<HTMLFormElement>) => void;
-}
-
 // UI
-function ImageSearchForm({ handleSearch }: ImageSearchFormProps): JSX.Element {
+function ImageSearchForm(): JSX.Element {
   // Grab state context
-  const { search, setSearch } = useContext(StateContext);
+  const { search, setSearch, handleSearch } = useContext(StateContext);
 
   return (
     <form
@@ -58,16 +53,10 @@ function ViewLikedButton(): JSX.Element {
   );
 }
 
-// Event Handler
-async function handleSearch(e: FormEvent<HTMLFormElement> | KeyboardEvent) {
-  e.preventDefault();
-  console.log("Handle Search!");
-}
-
 export default function Searchbar(): JSX.Element {
   return (
     <div className="flex w-full gap-4">
-      <ImageSearchForm handleSearch={handleSearch} />
+      <ImageSearchForm />
       <ViewLikedButton />
     </div>
   );
