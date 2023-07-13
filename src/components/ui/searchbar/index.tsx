@@ -17,7 +17,7 @@ function ImageSearchForm(): JSX.Element {
     >
       <input
         id="search-field"
-        className="outline-none w-full h-full bg-white/20 border-2 border-transparent rounded-lg p-5 cursor-pointer"
+        className="outline-none w-full h-full bg-white/20 border-2 border-transparent rounded-lg p-5"
         type="text"
         name="search"
         placeholder="Search for images"
@@ -28,7 +28,7 @@ function ImageSearchForm(): JSX.Element {
       />
       <motion.input
         type="submit"
-        className="flex w-fit justify-center items-center text-center font-bold px-4 py-2 bg-white/20 rounded-lg"
+        className="flex w-fit justify-center items-center text-center font-bold px-4 py-2 bg-white/20 rounded-lg cursor-pointer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       />

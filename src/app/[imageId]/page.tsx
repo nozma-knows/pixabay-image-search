@@ -2,12 +2,16 @@ import Image from "next/image";
 import DownloadImageButton from "@/components/ui/download-image-button";
 import { ImageType } from "@/components/types/image";
 import BackButton from "@/components/ui/back-button";
+import { useState } from "react";
+import DisplayFullImage from "@/components/ui/display-full-image";
 
 const backbuttonText = "Back to search";
 
 interface ImageDetailsScreenProps {
   params: { imageId: string };
 }
+
+const title = "Image Details View";
 
 // API Call
 async function fetchImage(id: string) {
@@ -16,29 +20,6 @@ async function fetchImage(id: string) {
   );
   const data = await res.json();
   return data.hits[0];
-}
-
-function DisplayImage({ image }: { image: ImageType }): JSX.Element {
-  return (
-    <div
-      className={`flex w-full h-full relative ${
-        image.largeImageURL.endsWith(".png") && "checkered"
-      } p-4 rounded-lg`}
-      style={{
-        aspectRatio: `${image.imageWidth}/${image.imageHeight}`,
-      }}
-    >
-      <Image
-        src={image.largeImageURL}
-        alt={image.tags}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="rounded-lg"
-        priority={true}
-        blurDataURL={image.previewURL}
-      />
-    </div>
-  );
 }
 
 function DisplayUserDetails({ image }: { image: ImageType }): JSX.Element {
@@ -88,13 +69,13 @@ export default async function ImageDetailsScreen({
   if (!image) {
     <div>Loading...</div>;
   }
-  console.log("image: ", image);
   return (
-    <div className="flex w-full justify-center items-center p-4">
+    <div className="flex flex-col w-full justify-center items-center p-4">
+      <h1 className="flex p-8">{title}</h1>
       <div className="flex flex-col w-full max-w-4xl gap-8">
         <BackButton label={backbuttonText} />
         <div className="flex flex-col gap-4">
-          <DisplayImage image={image} />
+          <DisplayFullImage image={image} />
           <DisplayUserDetails image={image} />
         </div>
       </div>

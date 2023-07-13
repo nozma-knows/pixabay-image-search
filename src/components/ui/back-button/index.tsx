@@ -11,7 +11,7 @@ export default function BackButton({ label }: BackButtonProps): JSX.Element {
   return (
     <Link href="/">
       <motion.div
-        className="flex gap-2 items-center cursor-pointer"
+        className="flex gap-2 items-center cursor-pointer w-fit"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
