@@ -75,8 +75,8 @@ export default async function ImageDetailsScreen({
       <div className="flex flex-col w-full max-w-4xl gap-8">
         <BackButton label={backbuttonText} />
         <div className="flex flex-col gap-4">
-          <DisplayFullImage image={image} />
           <DisplayUserDetails image={image} />
+          <DisplayFullImage image={image} />
         </div>
       </div>
     </div>
