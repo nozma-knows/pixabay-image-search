@@ -1,15 +1,17 @@
 "use client";
 
-import { ChangeEvent, useContext, useEffect } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BiSolidHeart } from "react-icons/bi";
 import { StateContext } from "@/context/state.context";
 import Button from "@/components/ui/button";
 import { motion } from "framer-motion";
 
+import "../button/index.css";
+
 function ImageSearchForm(): JSX.Element {
   // Grab state context
   const { search, setSearch, handleSearch } = useContext(StateContext);
-
+  const disabled = !search.length;
   return (
     <form
       onSubmit={(event) => handleSearch(event)}
@@ -28,9 +30,11 @@ function ImageSearchForm(): JSX.Element {
       />
       <motion.input
         type="submit"
-        className="flex w-fit justify-center items-center text-center font-bold px-4 py-2 bg-white/20 rounded-lg cursor-pointer"
+        // className="flex w-fit justify-center items-center text-center font-bold px-4 py-2 bg-white/20 rounded-lg cursor-pointer"
+        className={`${disabled ? "disabled-button" : "button"}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        disabled={disabled}
       />
     </form>
   );
