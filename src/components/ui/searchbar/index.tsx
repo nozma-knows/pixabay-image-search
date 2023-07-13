@@ -1,12 +1,11 @@
 "use client";
 
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import { BiSolidHeart } from "react-icons/bi";
-
 import { StateContext } from "@/context/state.context";
 import Button from "@/components/ui/button";
+import { motion } from "framer-motion";
 
-// UI
 function ImageSearchForm(): JSX.Element {
   // Grab state context
   const { search, setSearch, handleSearch } = useContext(StateContext);
@@ -18,7 +17,7 @@ function ImageSearchForm(): JSX.Element {
     >
       <input
         id="search-field"
-        className="outline-none w-full h-full bg-white/20 border-2 border-transparent rounded-lg p-5"
+        className="outline-none w-full h-full bg-white/20 border-2 border-transparent rounded-lg p-5 cursor-pointer"
         type="text"
         name="search"
         placeholder="Search for images"
@@ -27,16 +26,25 @@ function ImageSearchForm(): JSX.Element {
           setSearch(e.target.value)
         }
       />
-      <input
+      <motion.input
         type="submit"
         className="flex w-fit justify-center items-center text-center font-bold px-4 py-2 bg-white/20 rounded-lg"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       />
     </form>
   );
 }
 
 function ViewLikedButton(): JSX.Element {
-  const { liked } = useContext(StateContext);
+  const { liked, showLiked, setShowLiked } = useContext(StateContext);
+
+  useEffect(() => {
+    if (!liked.length) {
+      setShowLiked(false);
+    }
+  }, [liked, setShowLiked]);
+
   return (
     <Button
       tooltip={{
@@ -45,7 +53,7 @@ function ViewLikedButton(): JSX.Element {
           : "You haven't marked any images as favorites yet",
         placement: "top",
       }}
-      onClick={() => console.log("Set Show Liked")}
+      onClick={() => setShowLiked(!showLiked)}
       disabled={!liked.length}
     >
       <BiSolidHeart className="w-8 h-8" />

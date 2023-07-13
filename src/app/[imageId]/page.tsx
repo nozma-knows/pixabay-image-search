@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { BiArrowBack } from "react-icons/bi";
 import Image from "next/image";
 import DownloadImageButton from "@/components/ui/download-image-button";
 import { ImageType } from "@/components/types/image";
+import BackButton from "@/components/ui/back-button";
 
 const backbuttonText = "Back to search";
 
@@ -17,17 +16,6 @@ async function fetchImage(id: string) {
   );
   const data = await res.json();
   return data.hits[0];
-}
-
-function BackButton(): JSX.Element {
-  return (
-    <Link href="/">
-      <div className="flex gap-2 items-center">
-        <BiArrowBack />
-        <div>{backbuttonText}</div>
-      </div>
-    </Link>
-  );
 }
 
 function DisplayImage({ image }: { image: ImageType }): JSX.Element {
@@ -103,10 +91,12 @@ export default async function ImageDetailsScreen({
   console.log("image: ", image);
   return (
     <div className="flex w-full justify-center items-center p-4">
-      <div className="flex flex-col w-full max-w-4xl gap-4">
-        <BackButton />
-        <DisplayImage image={image} />
-        <DisplayUserDetails image={image} />
+      <div className="flex flex-col w-full max-w-4xl gap-8">
+        <BackButton label={backbuttonText} />
+        <div className="flex flex-col gap-4">
+          <DisplayImage image={image} />
+          <DisplayUserDetails image={image} />
+        </div>
       </div>
     </div>
   );

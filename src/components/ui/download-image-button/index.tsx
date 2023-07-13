@@ -2,11 +2,16 @@
 
 import { ClipLoader } from "react-spinners";
 import { BiDownload } from "react-icons/bi";
-// import { motion } from "framer-motion";
 import useDownloader from "react-use-downloader";
 import Button from "@/components/ui/button";
 
-export default function DownloadImageButton({ url }: { url: string }) {
+interface DownloadImageButtonProps {
+  url: string;
+}
+
+export default function DownloadImageButton({
+  url,
+}: DownloadImageButtonProps): JSX.Element {
   const { download, isInProgress } = useDownloader();
   const fileName = url.split("/").pop();
   return (
@@ -19,7 +24,7 @@ export default function DownloadImageButton({ url }: { url: string }) {
       }}
     >
       {isInProgress ? (
-        <ClipLoader size={20} />
+        <ClipLoader size={30} color="#FFF" />
       ) : (
         <BiDownload className="w-8 h-8" />
       )}
