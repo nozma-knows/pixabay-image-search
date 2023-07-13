@@ -1,7 +1,7 @@
 import Searchbar from "@/components/ui/searchbar";
 import MasonryGrid from "@/components/ui/masonry-grid";
 
-const title = "Pixababy Image Search";
+const title = "Pixabay Image Search";
 
 export default function Home() {
   return (
