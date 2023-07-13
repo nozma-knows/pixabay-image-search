@@ -9,6 +9,9 @@ import { Masonry } from "@mui/lab";
 import { ImageType } from "@/components/types/image";
 import { StateContext } from "@/context/state.context";
 import Button from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+import "./index.css";
 
 const likedImagesTitle = "Favorites";
 
@@ -37,18 +40,24 @@ function GridItem({ image }: GridItemProps): JSX.Element {
   const [hoveringHeart, setHoveringHeart] = useState(false);
 
   return (
-    <div
+    <motion.div
       className="flex w-full relative cursor-pointer"
       onClick={() => !hoveringHeart && router.push(`/${id}`)}
       style={{
         aspectRatio: `${previewWidth}/${previewHeight}`,
       }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={!hoveringHeart ? { scale: 0.95 } : {}}
     >
-      <div
+      <motion.div
         className="flex w-full h-full absolute z-10 rounded-lg p-2 justify-end"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4))`,
         }}
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
       >
         <div
           className="flex w-8 h-8"
@@ -67,7 +76,7 @@ function GridItem({ image }: GridItemProps): JSX.Element {
             />
           )}
         </div>
-      </div>
+      </motion.div>
       <div
         className={`flex w-full h-full relative p-4 rounded-lg ${
           previewURL.endsWith(".png") && "checkered"
@@ -81,7 +90,7 @@ function GridItem({ image }: GridItemProps): JSX.Element {
           className="rounded-lg"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -137,7 +146,7 @@ export default function MasonryGrid(): JSX.Element {
   const { showLiked } = useContext(StateContext);
 
   return (
-    <div id="masonry-grid">
+    <div id="masonry-grid" className="masonry-grid">
       {showLiked && <LikedImagesView />}
       <SearchedImagesView />
       <ShowMoreButton />
