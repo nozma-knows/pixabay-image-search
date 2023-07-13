@@ -17,8 +17,11 @@ interface GridItemProps {
 }
 
 // UI
-function UpdateLiked(image: ImageType) {
-  const { liked, setLiked } = useContext(StateContext);
+function UpdateLiked(
+  image: ImageType,
+  liked: ImageType[],
+  setLiked: (i: ImageType[]) => void
+) {
   if (liked.find((item) => item.id === image.id)) {
     setLiked(liked.filter((item) => item.id !== image.id));
   } else {
@@ -55,12 +58,12 @@ function GridItem({ image }: GridItemProps): JSX.Element {
           {isLiked ? (
             <BiSolidHeart
               className="w-full h-full text-white"
-              onClick={() => UpdateLiked(image)}
+              onClick={() => UpdateLiked(image, liked, setLiked)}
             />
           ) : (
             <BiHeart
               className="w-full h-full text-white"
-              onClick={() => UpdateLiked(image)}
+              onClick={() => UpdateLiked(image, liked, setLiked)}
             />
           )}
         </div>
